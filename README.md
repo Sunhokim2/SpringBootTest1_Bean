@@ -1,3 +1,11 @@
+### JavaStudy ###
+
+잡다하게 자바에대해 공부하고 테스트해본 코드들
+
+---
+
+### springboot ###
+
 jar는 maven쓰면
 
 maven - [프로젝트명] - lifecycle - deploy
