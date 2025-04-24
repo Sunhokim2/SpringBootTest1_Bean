@@ -7,7 +7,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import lombok.Data;
 
+@Data
 @Entity
 public class Major {
     @Id
