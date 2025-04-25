@@ -77,7 +77,7 @@ public class JpaController {
     @ResponseBody
     public List<PlayerDTO> getMethodName() {
         List<Player> players = pr.findAll();
-        // 메소드 참조 사용
+        // 메소드 참조 사용 (코드길이가 줄어든다.)
         List<PlayerDTO> list = players.stream().map(Player::toDto).toList();
 
         /**
