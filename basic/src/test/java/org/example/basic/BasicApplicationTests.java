@@ -45,7 +45,7 @@ public class BasicApplicationTests {
         ServiceCenter sc = new ServiceCenter();
         sc.setCustomer("변경이름");
         sc.setPrdName("변경상품");
-        sc.setId(5); // 변경할 제품의 Id
+        sc.setId(1); // 변경할 제품의 Id
 
         // Optional<ServiceCenter> optional =
         // serviceCenterRepository.findById(sc.getId());
