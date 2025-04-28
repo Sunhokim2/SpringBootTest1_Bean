@@ -1,0 +1,10 @@
+<!--/* 타임리프로 게시판 번호 바꾸는 기능 */-->
+
+<th:block th:each="pageNumber : ${#numbers.sequence(startPage, endPage)}">
+    <a th:href="@{|/pagination?page=${pageNumber}|}" th:if="${page} == ${pageNumber}" th:text="${pageNumber}"
+        style="font-weight:bold">
+    </a>
+    <a th:href="@{|/pagination?page=${pageNumber}|}" th:unless="${page} == ${pageNumber}" th:text="${pageNumber}">
+    </a>
+
+</th:block>
