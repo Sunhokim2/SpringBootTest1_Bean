@@ -20,7 +20,8 @@ public class Post {
     String title;
 
     // 아니면 casdcade = {CascadeType.ALL}로 해도 된다.
-    @OneToMany(mappedBy = "post", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "post", cascade = { CascadeType.PERSIST,
+            CascadeType.REMOVE }, orphanRemoval = true)
     List<Comment> comments = new ArrayList<>();
 
     public void addComment(Comment comment) {

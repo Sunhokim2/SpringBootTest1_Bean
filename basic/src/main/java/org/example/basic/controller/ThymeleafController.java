@@ -45,18 +45,40 @@ public class ThymeleafController {
     @GetMapping("/holiday-parking")
     public String holidayParking(
             Model model,
-            @RequestParam(defaultValue = "1") int page) {
-        int startPage = (page - 1) / 10 * 10 + 1;
-        int endPage = startPage + 9;
-        Pageable pageable = PageRequest.of(page - 1, 10);
-        Page<HolidayParking> holidayParkingList = holidayParkingRepository.findAll(pageable);
+            @RequestParam(defaultValue = "1") int page,
+            // 파라미터 이름을 searchKeyword로 변경 (HTML과 일치시키기 위해)
+            @RequestParam(defaultValue = "") String searchKeyword) {
 
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
-        model.addAttribute("page", page);
-        model.addAttribute("holidayParkingList", holidayParkingList.getContent());
-        model.addAttribute("totalPages", holidayParkingList.getTotalPages());
+        int pageSize = 10; // 페이지 당 아이템 수
+        Pageable pageable = PageRequest.of(page - 1, pageSize); // page는 1부터 시작, Pageable은 0부터 시작
 
-        return "holiday-parking";
+        // 검색어(searchKeyword)를 사용하여 데이터 조회
+        Page<HolidayParking> holidayParkingPage = holidayParkingRepository
+                .findByInstitutionContainingOrSidoContainingOrGuContaining(
+                        searchKeyword, searchKeyword, searchKeyword, pageable);
+
+        int totalPages = holidayParkingPage.getTotalPages(); // 전체 페이지 수
+
+        // 페이지네이션 블록 계산 (예: 1-10, 11-20)
+        int pageBlockSize = 10;
+        int startPage = ((page - 1) / pageBlockSize) * pageBlockSize + 1;
+        int endPage = startPage + pageBlockSize - 1;
+        // endPage가 실제 totalPages보다 크면 totalPages로 조정
+        endPage = Math.min(endPage, totalPages);
+
+        // 모델에 데이터 추가
+        model.addAttribute("totalPages", totalPages); // 전체 페이지 수
+        model.addAttribute("totalElement", holidayParkingPage.getTotalElements()); // 전체 아이템 수
+        model.addAttribute("holidayParkingList", holidayParkingPage.getContent());
+        model.addAttribute("page", page); // 현재 페이지 번호
+        model.addAttribute("searchKeyword", searchKeyword); // 현재 검색어 (입력 필드 유지용)
+        model.addAttribute("startPage", startPage); // 페이지네이션 시작 번호
+        model.addAttribute("endPage", endPage); // 페이지네이션 끝 번호
+        model.addAttribute("totalPages", totalPages); // 전체 페이지 수 (필요시 사용)
+
+        // 만약 검색어인 searchKeyword도 가리고싶으면 모델 addAttribute("searchKeyword",
+        // searchKeyword);를 사용한다.
+
+        return "holiday-parking"; // 뷰 이름 반환
     }
 }
