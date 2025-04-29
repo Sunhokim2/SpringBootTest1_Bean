@@ -1,0 +1,23 @@
+<div th:if="${session.user} != null">
+    <p th:text="${session.user.userId} + '님 반갑습니다.'"></p>
+    <button onclick="logout()" class="btn btn-primary" style="padding: 12px 24px; font-size: 16px; border-radius: 8px; 
+                   background-color: #0056b3; color: white; border: none; 
+                   cursor: pointer; transition: background-color 0.3s;">
+        로그아웃
+    </button>
+    <p th:text="'마지막 접속 일시 :' + ${#dates.format(session.loginTime, 'yyyy/MM/dd HH:mm:ss')}"></p>
+    <script>
+        function logout() {
+            fetch('/ses/logout', { method: 'POST' })
+                .then(response => {
+                    if (response.ok) {
+                        // window.location.href
+                        location = '/ses/login';
+                    } else {
+                        alert('로그아웃 실패!');
+                    }
+                });
+        }
+    </script>
+</div>
+<p th:unless="${session.user} != null">로그인되어 있지 않습니다. </p>
