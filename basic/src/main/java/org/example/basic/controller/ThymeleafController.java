@@ -81,4 +81,15 @@ public class ThymeleafController {
 
         return "holiday-parking"; // 뷰 이름 반환
     }
+
+    // ✨레이아웃 작업
+    @GetMapping("/layout1")
+    public String layout1() {
+        return "layout1"; // layout1.html을 반환
+    }
+
+    @GetMapping("/layout2")
+    public String layout2() {
+        return "layout2"; // layout2.html을 반환
+    }
 }
